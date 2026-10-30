@@ -2,7 +2,7 @@ import logging
 import streamlit as st
 
 from config import CATALOGUE, POLICY
-from trustcart.core import ProductIndex, answer_query, load_catalogue, load_policy
+from core import ProductIndex, answer_query, load_catalogue, load_policy
 
 logging.basicConfig(level=logging.INFO)
 
