@@ -1,7 +1,7 @@
 import logging
 import streamlit as st
 
-from config import DEFAULT_CATALOGUE, POLICY
+from config import CATALOGUE, POLICY
 from core import ProductStore, answer_query, load_catalogue, load_policy
 
 logging.basicConfig(level=logging.INFO)
@@ -36,7 +36,7 @@ st.markdown("""
 
 @st.cache_resource(show_spinner="Validating official catalogue and policy...")
 def init_store():
-    products = load_catalogue(DEFAULT_CATALOGUE)
+    products = load_catalogue(CATALOGUE)
     policy = load_policy(POLICY)
     index = ProductStore(products)
     return products, index, policy
