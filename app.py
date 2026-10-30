@@ -2,7 +2,7 @@ import logging
 import streamlit as st
 
 from config import CATALOGUE, POLICY
-from trustcart.core import ProductIndex, answer_query, load_catalogue, load_policy
+from trustcart.core import ProductStore, answer_query, load_catalogue, load_policy
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,7 +23,7 @@ st.markdown("""
 def resources():
     products = load_catalogue(CATALOGUE)
     policy = load_policy(POLICY)
-    return products, ProductIndex(products), policy
+    return products, ProductStore(products), policy
 
 with st.sidebar:
     st.subheader("Trust controls")
