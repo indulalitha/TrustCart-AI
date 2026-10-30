@@ -50,8 +50,7 @@ st.session_state.setdefault("history", [])
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["text"])
-        if message.get("meta"):
-            st.caption(message["meta"])
+        
 
 prompt = st.chat_input("Ask about products, price, stock or store policy…", max_chars=500)
 if prompt:
@@ -61,15 +60,12 @@ if prompt:
     with st.chat_message("assistant"):
         with st.spinner("Checking catalogue evidence…"):
             answer = answer_query(prompt, st.session_state.history, products, index, policy)
-        st.markdown(answer.answer_text)
-        label = {"answer": "ANSWER", "clarify": "CLARIFY", "refuse": "REFUSE"}[answer.action]
-        meta = f"{label} · {answer.latency_ms:.2f} ms · tokens in/out {answer.tokens_in}/{answer.tokens_out}"
-        st.caption(meta)
-        with st.expander("Evidence and structured response"):
-            st.json(answer.to_dict())
-    st.session_state.history = (st.session_state.history + [prompt])[-8:]
-    st.session_state.messages.append({"role": "assistant", "text": answer.answer_text, "meta": meta})
+       st.markdown(answer.answer_text)
 
+if answer.cited_product_ids:
+    st.markdown("**Product ID:**")
+    for product_id in answer.cited_product_ids:
+        st.write(product_id)
 if not st.session_state.messages:
     st.markdown("### Try these questions")
     st.write("- `65W charger dikhao`")
